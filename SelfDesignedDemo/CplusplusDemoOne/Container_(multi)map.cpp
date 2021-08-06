@@ -156,7 +156,7 @@ void map_sort()
 	}
 }
 
-void main()
+void main_Multimap()
 {
 	//map_structure();
 	//map_sizeAndswap();

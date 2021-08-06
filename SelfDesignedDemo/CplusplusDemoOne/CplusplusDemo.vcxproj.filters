@@ -219,6 +219,9 @@
     <ClCompile Include="Container_(multi)map.cpp">
       <Filter>Resource\STL</Filter>
     </ClCompile>
+    <ClCompile Include="FunctionObject.cpp">
+      <Filter>Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

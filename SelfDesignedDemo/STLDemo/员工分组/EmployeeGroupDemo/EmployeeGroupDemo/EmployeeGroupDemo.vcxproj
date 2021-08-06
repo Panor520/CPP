@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{af2a3034-0b78-4908-b175-2fb1297259cc}</ProjectGuid>
-    <RootNamespace>CplusplusDemo</RootNamespace>
+    <ProjectGuid>{fe658bf7-95e7-4511-b0ff-b1d97fe45abf}</ProjectGuid>
+    <RootNamespace>EmployeeGroupDemo</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;HAVE_STRUCT_TIMESPEC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -139,89 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AbstractClass.cpp" />
-    <ClCompile Include="ClassAndFuncTemplateDiff.cpp" />
-    <ClCompile Include="ClassModel.cpp" />
-    <ClCompile Include="ClassTemplate.cpp" />
-    <ClCompile Include="ClassTemplateAndInherit.cpp" />
-    <ClCompile Include="ClassTemplateSplitDemo.cpp" />
-    <ClCompile Include="Container_(multi)map.cpp" />
-    <ClCompile Include="Container_(multi)set.cpp" />
-    <ClCompile Include="Container_deque.cpp" />
-    <ClCompile Include="Container_list.cpp" />
-    <ClCompile Include="Container_queue.cpp" />
-    <ClCompile Include="Container_stack.cpp" />
-    <ClCompile Include="Container_string.cpp" />
-    <ClCompile Include="Container_Vector.cpp" />
-    <ClCompile Include="Example_MakeDrink.cpp" />
-    <ClCompile Include="Example_电脑组装.cpp" />
-    <ClCompile Include="Filestream.cpp" />
-    <ClCompile Include="FuncTemplate.cpp" />
-    <ClCompile Include="FuncTemplateDemo.cpp" />
-    <ClCompile Include="FunctionObject.cpp" />
-    <ClCompile Include="Overload().cpp" />
-    <ClCompile Include="Overload++.cpp" />
-    <ClCompile Include="BubbleSort.cpp" />
-    <ClCompile Include="Catch.cpp" />
-    <ClCompile Include="Circle.cpp" />
-    <ClCompile Include="CirclePoint.cpp" />
-    <ClCompile Include="ClassAndFunction.cpp" />
-    <ClCompile Include="ClassDemo.cpp" />
-    <ClCompile Include="Constructors.cpp" />
-    <ClCompile Include="CopyConstructor.cpp" />
-    <ClCompile Include="DataAbstraction.cpp" />
-    <ClCompile Include="File.cpp" />
-    <ClCompile Include="Friend.cpp" />
-    <ClCompile Include="Function.cpp" />
-    <ClCompile Include="Memory.cpp" />
-    <ClCompile Include="NameSpace.cpp" />
-    <ClCompile Include="Overload=.cpp" />
-    <ClCompile Include="OverLoad==！=.cpp" />
-    <ClCompile Include="PloyExamplyCalculator.cpp" />
-    <ClCompile Include="polymorphism.cpp" />
-    <ClCompile Include="STL.cpp" />
-    <ClCompile Include="二进制读写.cpp" />
-    <ClCompile Include="加号和左移运算符.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="polymorphic.cpp" />
-    <ClCompile Include="Preproccessor.cpp" />
-    <ClCompile Include="Quote.cpp" />
-    <ClCompile Include="ReverseArray.cpp" />
-    <ClCompile Include="SignalProcessing.cpp" />
     <ClCompile Include="Start.cpp" />
-    <ClCompile Include="StaticMembers.cpp" />
-    <ClCompile Include="Struct.cpp" />
-    <ClCompile Include="template_Class.cpp" />
-    <ClCompile Include="template_Function.cpp" />
-    <ClCompile Include="thread.cpp" />
-    <ClCompile Include="算法容器迭代器.cpp" />
-    <ClCompile Include="文本文件——读写.cpp" />
-    <ClCompile Include="类模板与友元.cpp" />
-    <ClCompile Include="类模板分文件编写.cpp" />
-    <ClCompile Include="类模板成员函数类外实现.cpp" />
-    <ClCompile Include="继承中同名成员处理.cpp" />
-    <ClCompile Include="菱形继承.cpp" />
-    <ClCompile Include="虚析构函数和纯虚构函数.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Circle.h" />
-    <ClInclude Include="ClassTemplateSplitDemo.h" />
-    <ClInclude Include="ClassTemplateSplitDemo.hpp" />
-    <ClInclude Include="Point.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets" Condition="Exists('packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets')" />
-    <Import Project="packages\pthreads.2.9.1.4\build\native\pthreads.targets" Condition="Exists('packages\pthreads.2.9.1.4\build\native\pthreads.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets'))" />
-    <Error Condition="!Exists('packages\pthreads.2.9.1.4\build\native\pthreads.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\pthreads.2.9.1.4\build\native\pthreads.targets'))" />
-  </Target>
 </Project>
