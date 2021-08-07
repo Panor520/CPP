@@ -31,6 +31,12 @@
     <Filter Include="Resource\STL">
       <UniqueIdentifier>{df35932e-b240-4605-b5f2-f1f05651f9e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource\FunctionObject">
+      <UniqueIdentifier>{0a9a14bb-cf12-4577-a3bc-155292d93615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource\STL\Algorithm">
+      <UniqueIdentifier>{f222945f-aec5-4e1b-9fd5-2700ce84734a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Start.cpp">
@@ -220,7 +226,16 @@
       <Filter>Resource\STL</Filter>
     </ClCompile>
     <ClCompile Include="FunctionObject.cpp">
-      <Filter>Resource</Filter>
+      <Filter>Resource\FunctionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="谓词.cpp">
+      <Filter>Resource\FunctionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="STLInternalFO.cpp">
+      <Filter>Resource\FunctionObject</Filter>
+    </ClCompile>
+    <ClCompile Include="NormalAlgorithm.cpp">
+      <Filter>Resource\STL\Algorithm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
