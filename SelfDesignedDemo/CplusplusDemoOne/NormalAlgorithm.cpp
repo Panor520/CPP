@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <numeric>
 using namespace std;
 
 #pragma region for_each
@@ -539,9 +540,189 @@ void test_replace_if()
 }
 #pragma endregion
 
+#pragma region swap
+//交换两个相同容器的数据
+void testprint_swap(int x)
+{
+	cout << x << " ";
+}
+void test_swap()
+{
+	vector<int> v;
+	for (int i = 0; i < 5; i++)
+	{
+		v.push_back(i);
+	}
+
+	cout << "v:";
+	for_each(v.begin(),v.end(), testprint_swap);
+	vector<int> v1;
+	for (int i = 6; i < 13; i++)
+	{
+		v1.push_back(i);
+	}
+	cout<<endl << "v1:";
+	for_each(v1.begin(), v1.end(), testprint_swap);
+
+	cout <<endl<< "after swap----------------" << endl;
+
+	swap(v,v1);
+	cout << "v:";
+	for_each(v.begin(), v.end(), testprint_swap);
+	cout<<endl << "v1:";
+	for_each(v1.begin(), v1.end(), testprint_swap);
+}
+#pragma endregion
+
+#pragma region 算数生成算法
+//包含头文件 #include <numeric>
+#pragma region accumulate
+//计算容器元素累计总和
+void test_accumulate()
+{
+	vector<int> v;
+	for (int i = 0; i < 10; i++)
+	{
+		v.push_back(i);
+	}
+
+	int total=accumulate(v.begin(),v.end(),0);//第三个参数是起始累加值，也就是累加迭代器前需要加的数字
+	cout << "total=" << total << endl;
+}
+#pragma endregion
+
+#pragma region fill
+//填充算法
+void test_fill()
+{
+	vector<int> v;
+	v.resize(10);//给空容器设置大小后，默认填充的都是0
+	for_each(v.begin(),v.end(),testprint_swap);
+	cout << endl;
+	fill(v.begin(),v.end(),100);//使用fill算法再次填充，此次填充的是100
+	for_each(v.begin(), v.end(), testprint_swap);
+}
+#pragma endregion
 
 
-void main()
+#pragma endregion
+
+#pragma region set_intersection
+//求两个必须是有序序列的集合的交集
+void test_set_intersection()
+{
+	vector<int> v1;
+	for (int i = 0; i < 6; i++)
+	{
+		v1.push_back(i);
+	}
+	cout << "v1:";
+	for_each(v1.begin(), v1.end(), testprint_swap);
+
+	vector<int> v2;
+	for (int i = 4; i < 10; i++)
+	{
+		v2.push_back(i);
+	}
+	cout << endl << "v2:";
+	for_each(v2.begin(), v2.end(), testprint_swap);
+
+	vector<int> vTarget;
+	vTarget.resize(min(v1.size(),v2.size()));
+
+	vector<int>::iterator Tend=  set_intersection(v1.begin(),v1.end(),v2.begin(),v2.end(),vTarget.begin());//返回目标容器最后一个数的后的位置
+
+	cout<<endl << "intersection:" << endl;
+	for_each(vTarget.begin(),vTarget.end(),testprint_swap);//这个会打印出目标容器所有元素
+	cout << endl;
+	for_each(vTarget.begin(), Tend, testprint_swap);
+}
+#pragma endregion
+
+#pragma region set_union
+//获取两个必须是有序序列容器的并集
+void test_set_union()
+{
+	vector<int> v1;
+	vector<int> v2;
+	for (int i = 0; i < 10; i++)
+	{
+		v1.push_back(i);
+	}
+	for (int i = 5; i < 15; i++)
+	{
+		v2.push_back(i);
+	}
+
+	cout << "v1:";
+	for_each(v1.begin(), v1.end(), testprint_swap);
+
+	cout << endl << "v2:";
+	for_each(v2.begin(), v2.end(), testprint_swap);
+
+	cout << endl << "set_union："<<endl;;
+
+	vector<int> vTarget;
+	vTarget.resize(v1.size()+v2.size());
+
+	vector<int>::iterator Tend = set_union(v1.begin(),v1.end(),v2.begin(),v2.end(),vTarget.begin());
+	
+	for_each(vTarget.begin(), vTarget.end(), testprint_swap);
+	cout << endl ;
+	for_each(vTarget.begin(), Tend, testprint_swap);
+	cout << endl;
+}
+#pragma endregion
+
+#pragma region set_difference
+//求两个必须是有容器的差集，
+//例v1和v2差集指的是v1包含的但v2不包含的元素，
+//例v2和v1差集指的是v2包含的但v1不包含的元素，
+void test_set_difference()
+{
+	vector<int> v1;
+	vector<int> v2;
+	for (int i = 0; i < 10; i++)
+	{
+		v1.push_back(i);
+	}
+	for (int i = 5; i < 15; i++)
+	{
+		v2.push_back(i);
+	}
+
+	cout << "v1:";
+	for_each(v1.begin(), v1.end(), testprint_swap);
+
+	cout << endl << "v2:";
+	for_each(v2.begin(), v2.end(), testprint_swap);
+
+	
+	vector<int> vTarget;
+	vTarget.resize(max(v1.size(),v2.size()));//v1和v2比较 最多v1的元素v2都没有 
+
+	cout << endl << "v1和v2 set_difference：" << endl;
+	vector<int>::iterator iend= set_difference(v1.begin(),v1.end(),v2.begin(),v2.end(), vTarget.begin());
+
+	for_each(vTarget.begin(), vTarget.end(), testprint_swap);
+	cout << endl;
+
+	for_each(vTarget.begin(), iend, testprint_swap);
+	cout << endl;
+
+	cout << endl << "v2和v1 set_difference：" << endl;
+	vector<int>::iterator iend1 = set_difference(v2.begin(), v2.end(), v1.begin(), v1.end(), vTarget.begin());
+
+	for_each(vTarget.begin(), vTarget.end(), testprint_swap);
+	cout << endl;
+
+	for_each(vTarget.begin(), iend1, testprint_swap);
+	cout << endl;
+}
+#pragma endregion
+
+
+void main_NormalAgorithm()
 {
 	
 	//test_foreach();
@@ -562,5 +743,11 @@ void main()
 	//test_reverse();
 	//test_copy();
 	//test_replace();
-	test_replace_if();
+	//test_replace_if();
+	//test_swap();
+	//test_accumulate();
+	//test_fill();
+	//test_set_intersection();
+	//test_set_union();
+	test_set_difference();
 }
