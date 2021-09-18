@@ -55,7 +55,8 @@ int main(int argc, char *argv[])
     {
         int iret;
         memset(buffer, 0, sizeof(buffer));
-        sprintf(buffer, "getpid=%d,这是第%d个超级女生，编号%03d。", getpid(), ii + 1, ii + 1);
+        // sprintf(buffer, "getpid=%d,这是第%d个超级女生，编号%03d。", getpid(), ii + 1, ii + 1);
+        sprintf(buffer, "这是第%d个超级女生，编号%03d。", ii + 1, ii + 1);
         if ((iret = send(sockfd, buffer, strlen(buffer), 0)) <= 0) // 向服务端发送请求报文。
         {
             perror("send");
