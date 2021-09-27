@@ -1,7 +1,0 @@
-g++ server.cpp -o server 
-g++ client.cpp -o client
-
-linux: 生成.out文件   启动方法：在terminal中输入  .\server.out 然后回车
-windows：生成.exe文件 启动方法：双击exe文件
-
-无论哪个iso都要先启动server，再启动client获取server传过来的信息

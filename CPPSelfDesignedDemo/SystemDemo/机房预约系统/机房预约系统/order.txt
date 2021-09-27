@@ -1,7 +1,0 @@
-date:1 Interval:1 stuId:1 stuName:1 roomId:1 status:0
-date:1 Interval:1 stuId:1 stuName:1 roomId:1 status:0
-date:3 Interval:2 stuId:1 stuName:1 roomId:3 status:0
-date:1 Interval:2 stuId:1 stuName:1 roomId:2 status:2
-date:4 Interval:1 stuId:1 stuName:1 roomId:1 status:-1
-date:5 Interval:2 stuId:1 stuName:1 roomId:2 status:1
-date:3 Interval:2 stuId:1 stuName:1 roomId:3 status:-1
