@@ -121,26 +121,6 @@ double c_atof(const char * nptr)//convert string to double
 	return resInteger+resDecimal;
 }
 
-char *strstr1(const char* str, const char* substr)
-{
-	int strlen=0;
-	int sublen=0;
-	
-	for(int i=0;*(str+i)!='\0';i++)
-	{
-		if(*(str+i)!=*(substr+i))
-		{
-			continue;
-		}
-		else
-		{
-			break;
-		}
-	}
-
-}
-
-
 size_t  strlen1( const char*  str)//Calculate the effective length of the string,excluding 0.
 {
 	size_t res=0;
@@ -184,18 +164,287 @@ char * strncpy1(char* dest,const char* src, const size_t n)
 	//如果src的长度大于等于n，就截取src的前n个字符，不会在dest后追加0。
 	//
 	int i=0;
-	while(1)
+	int srclen=strlen1(src);
+	if(srclen<n)
 	{
-		if(i<n)
+		while(1)
+		{
+			if(i<srclen)
+			{
+				*(dest+i)=*(src+i);
+			}
+			else
+			{
+				*(dest+i)='\0';
+			}
+			
+			i++;
+
+			if(i==n)
+				break;
+		}
+	}
+	else if(srclen>=n)
+	{
+		while(1)
 		{
 			*(dest+i)=*(src+i);
+
+			i++;
+			if(i==n)
+				break;
 		}
-		else
+	}
+	return dest;
+}
+
+char *strcat1(char* dest,const char* src)
+{
+	int destlen=strlen1(dest);
+	int srclen=strlen1(src);
+	int i=0;
+	while(1)
+	{
+		if(i==srclen)
 		{
-			*(dest+i)='\0';
+			*(dest+destlen+i)='\0';
+			break;
 		}
+		*(dest+destlen+i)=*(src+i);
+		
 		i++;
 	}
-
 	return dest;
+}
+
+char *strncat1(char* dest,const char* src, const size_t n)
+{
+	//如果n大于等于字符串src的长度，那么将src全部追加到dest的尾部，如果n小于字符串src的长度，只追加src的前n个字符。
+	//strncat会将dest字符串最后的0覆盖掉，字符追加完成后，再追加0。
+	int srclen=strlen1(src);
+	int destlen=strlen1(dest);
+
+	int i=0;
+	if(srclen<n)
+	{
+		while(1)
+		{
+			if(i==srclen)
+			{
+				*(dest+destlen+i)='\0';
+				break;
+			}
+			*(dest+destlen+i)=*(src+i);
+			
+			i++;
+		}
+	}
+	else//srclen>=n
+	{
+		while(1)
+		{
+			if(i==n)
+			{
+				*(dest+destlen+i)='\0';
+				break;
+			}
+			*(dest+destlen+i)=*(src+i);
+
+			i++;
+		}
+	}
+	return dest;
+}
+
+int strcmp1(const char *str1, const char *str2 )
+{//相等返回0，str1大于str2返回1，str1小于str2返回-1；
+	int str1len=strlen1(str1);
+	int str2len=strlen1(str2);
+	
+	int res=-2;
+	int i=0;
+	while(1)
+	{
+		if(i==str1len && i<str2len)
+		{
+			res=-1;
+			break;
+		}
+		if(i==str2len && i<str1len)
+		{
+			res=1;
+			break;
+		}
+		if(i==str1len && i==str2len)
+		{
+			break;
+		}
+
+
+		if(*(str1+i)>*(str2+i))
+		{
+			res= 1;
+			break;
+		}
+		else if(*(str1+i)<*(str2+i))
+		{
+			res= -1;
+			break;
+		}
+		else if(*(str1+i)==*(str2+i))
+		{
+			res=0;
+		}
+
+		i++;
+	}
+	return res;
+}
+
+int strncmp1(const char *str1,const char *str2 ,const size_t n)
+{//str1=str2:0 | str1>str2:1 | str1<str2:-1
+	
+	int str1len=strlen1(str1);
+	int str2len=strlen1(str2);
+	
+	int res=-2;
+	int i=0;
+	while(1)
+	{
+		if(i==str1len && i<str2len)
+		{
+			res=-1;
+			break;
+		}
+		if(i==str2len && i<str1len)
+		{
+			res=1;
+			break;
+		}
+		if(i==str1len && i==str2len)
+		{
+			break;
+		}
+
+
+		if(*(str1+i)>*(str2+i))
+		{
+			res= 1;
+			break;
+		}
+		else if(*(str1+i)<*(str2+i))
+		{
+			res= -1;
+			break;
+		}
+		else if(*(str1+i)==*(str2+i))
+		{
+			res=0;
+		}
+
+		i++;
+
+		if(i==n)
+			break;
+	}
+	return res;
+	
+}
+
+char *strchr1(const char *s,const int c)
+{//返回一个指向在字符串s中第一个出现c的位置，如果找不到，返回0。
+	char * res=0;
+	int slen=strlen1(s);
+	int i=0;
+	while(1)
+	{
+		if((int)(*(s+i))==c)
+		{
+			res=(char *)s+i;
+			break;
+		}
+		i++;
+		if(i==slen)
+			return (void*)0;
+	}
+	return res;
+}
+
+char *strrchr1(const char *s,const int c)
+{//返回一个指向在字符串s中最后一个出现c的位置，如果找不到，返回0。
+		
+	char * res=0;
+	int slen=strlen1(s);
+	int i=0;
+	while(1)
+	{
+		if((int)(*(s+i))==c)
+		{
+			res=(char *)s+i;
+		}
+		i++;
+		if(i==slen)
+			break;
+	}
+	return res;
+}
+
+char *strstr1(const char* str, const char* substr)
+{//检索子串在字符串中首次出现的位置。
+	int strlen=strlen1(str);
+	int sublen=strlen1(substr);
+	
+	char * res=0;
+	int i=0;
+	while(1)
+	{
+		int j=0;
+		while(1)
+		{
+			if(*(str+i+j)==*(substr+j))
+			{
+				if(j==sublen-1)
+				{
+					res=(char *)(str+i);
+				}
+				j++;
+			}
+			else
+			{
+				j++;
+				break;
+			}
+
+			if(j==sublen)
+				break;
+		}
+
+		i++;
+		if(i==strlen||res!=0)
+			break;
+	}
+	return res;
+}
+
+int GetXMLBuffer_Str(const char *in_XMLBuffer,const char *in_FieldName,char *out_Value)
+{//in_FieldName，字段的标签名。out_Value，获取字段标签存放的变量的指针。 返回值，0-成功，-1-失败。
+	if(out_Value==0)
+		return -1;
+	
+	int bufferlen=strlen1(in_XMLBuffer);
+	int fieldnamelen=strlen1(in_FieldName);
+	
+	char * field_start=strstr1((char *)in_XMLBuffer,(char *)in_FieldName);
+	if(field_start==0)
+		return -1;
+	
+	char * field_end=strstr1((char *)(field_start+fieldnamelen),(char *)in_FieldName);
+	if(field_end==0)
+		return -1;
+
+	int subn=field_end-2-(field_start+fieldnamelen+1);
+	strncpy1(out_Value,(field_start+fieldnamelen+1),subn);
+	//out_Value
+	
+	return 0;
 }
