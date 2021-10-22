@@ -448,3 +448,75 @@ int GetXMLBuffer_Str(const char *in_XMLBuffer,const char *in_FieldName,char *out
 	
 	return 0;
 }
+
+int GetXMLBuffer_Int(const char *in_XMLBuffer,const char *in_FieldName,int *out_Value)
+{
+	char strvalue[51];
+	memset(strvalue,0,sizeof(strvalue));
+
+	if (GetXMLBuffer_Str(in_XMLBuffer,in_FieldName,strvalue)!=0) return -1;
+
+	(*out_Value)=atoi(strvalue);
+
+	return 0;
+}
+
+int GetXMLBuffer_Double(const char *in_XMLBuffer,const char *in_FieldName,double *out_Value)
+{   
+	char strvalue[51];
+	memset(strvalue,0,sizeof(strvalue));
+
+	if (GetXMLBuffer_Str(in_XMLBuffer,in_FieldName,strvalue)!=0) return -1;
+		    
+	(*out_Value)=atof(strvalue);
+	return 0;
+}
+
+int timetostr(const time_t ti,char *strtime)
+{//把整数的时间转换为字符串格式的时间
+
+	struct tm * now=localtime(&ti);
+	if(now!=0)
+	{
+		sprintf(strtime,"%d-%02u-%02u %02u:%02u:%02u", now->tm_year+1900,now->tm_mon,now->tm_mday,now->tm_hour,now->tm_min,now->tm_sec);
+		return 0;
+	}
+	return -1;
+}
+
+int strtotime(const char *strtime,time_t *ti)
+{//把字符串格式的时间转换为整数的时间:2019-02-08 12:05:08
+	struct tm  tms;
+	char * temp=malloc(5);
+	memset(temp,0,5);
+	temp=strncpy(temp,strtime,4);
+	tms.tm_year=atoi(temp)-1900;
+	
+	memset(temp,0,5);
+	temp=strncpy(temp,strstr(strtime,"-")+1,2);
+	tms.tm_mon=atoi(temp);
+
+	memset(temp,0,5);
+	temp=strncpy(temp,strstr(strstr(strtime,"-")+1,"-")+1,2);
+	tms.tm_mday=atoi(temp);
+
+
+	memset(temp,0,5);
+	temp=strncpy(temp,strstr(strtime," ")+1,2);
+	tms.tm_hour=atoi(temp);
+
+	memset(temp,0,5);
+	temp=strncpy(temp,strstr(strtime,":")+1,2);
+	tms.tm_min=atoi(temp);
+
+	memset(temp,0,5);
+	temp=strncpy(temp,strstr(strstr(strtime,":")+1,":")+1,2);
+	tms.tm_sec=atoi(temp);
+	free(temp);
+
+	*ti=mktime(&tms);
+	if(*ti!=0)
+		return 0; 
+	return -1;
+}
+

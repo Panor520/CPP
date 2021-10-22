@@ -2,6 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <unistd.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <utime.h>
 
 int ctoi(char c);
 
@@ -34,3 +41,13 @@ char *strrchr1(const char *s,const int c);
 char *strstr1(const char* str,const char* substr);
 
 int GetXMLBuffer_Str(const char *in_XMLBuffer,const char *in_FieldName,char *out_Value);
+
+int GetXMLBuffer_Int(const char *in_XMLBuffer,const char *in_FieldName,int *out_Value);
+
+int GetXMLBuffer_Double(const char *in_XMLBuffer,const char *in_FieldName,double *out_Value);
+
+int timetostr(const time_t ti,char *strtime);//把整数的时间转换为字符串格式的时间
+
+int strtotime(const char *strtime,time_t *ti);//把字符串格式的时间转换为整数的时间
+
+

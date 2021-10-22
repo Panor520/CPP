@@ -22,6 +22,12 @@ void test_malloc();
 void test_GetXMLBuffer_Str();
 void test_file();
 void test_binaryfile();
+void test_fpposition();
+void test_filework();
+void test_directory();
+void test_time();
+
+
 
 struct st_girl
 {
@@ -54,7 +60,11 @@ int main()
 	//test_GetXMLBuffer_Str();
 	//test_malloc();
 	//test_file();
-	test_binaryfile();
+	//test_binaryfile();
+	//test_fpposition();
+	//test_filework();
+	//test_directory();
+	test_time();
 }
 
 
@@ -456,6 +466,7 @@ void test_file()
 
 void test_binaryfile()
 {
+	printf("-----test_binaryfile\n");
 	struct st_girl stgirl;
 	FILE *fp=0;
 	
@@ -464,7 +475,304 @@ void test_binaryfile()
 		printf("fopen failed\n");
 	}
 
-	strcpy(stgirl.name,"西施"); stgirl.age=18; stgirl.height=170;
+	strcpy(stgirl.name,"西施"); 
+	stgirl.age=18; 
+	stgirl.height=170;
 	strcpy(stgirl.sc,"火辣"); 
 	fwrite(&stgirl,1,sizeof(stgirl),fp);
+
+	strcpy(stgirl.name,"貂蝉");
+	stgirl.age=19;
+	stgirl.height=165;
+	strcpy(stgirl.sc,"火辣");
+	fwrite(&stgirl,1,sizeof(stgirl),fp);
+	
+	fclose(fp);
+	fp=0;
+	printf("-----fwrite testbinary.dat end-----\n");
+	
+	printf("-----fgets testbinary.dat begin-----\n");
+
+	struct st_girl st;
+	
+	FILE * fpread=0;
+	if((fpread=fopen("testbinary.dat","a+"))==0)
+	{
+		printf("fopen failed!");
+	}
+
+	while(1)
+	{
+		if(fread(&st,1,sizeof(st),fpread)==0)
+		{
+			printf("fread end");
+			break;
+		}
+		printf("name=%s,age=%d,height=%d,sc=%s\n",\
+				          st.name,st.age,st.height,st.sc);
+	}
+
 }
+
+void test_fpposition()
+{
+	FILE * fp=fopen("test_fpposition.c","w+");
+	if(fp==0)
+	{
+		printf("fopen failed!");
+	}
+
+	fprintf(fp,"0123456789");
+	fprintf(fp,"\n123456789");
+
+	fclose(fp);
+
+	FILE * fp1=fopen("test_fpposition.c","w+");
+	if(fp==0)
+	{
+		printf("fopen2 failed!");
+	}
+	
+	printf("无论什么打开方式，位置指针都指向0位置\n");
+	printf("position=%ld\n",ftell(fp1));
+	rewind(fp1);
+	printf("after rewind, position=%ld\n",ftell(fp1));
+
+	fseek(fp1,5,0);//从文件开头向后移5个字节
+	printf("after fseek(fp1,5,0),position=%ld\n",ftell(fp1));
+
+	fclose(fp1);
+}
+
+void test_filework()
+{
+	struct st_girl stgirl[3];
+	memset(stgirl,0,sizeof(stgirl));
+
+	strcpy1(stgirl[0].name,"ha");
+	stgirl[0].age=18;
+	stgirl[0].height=165;
+	stgirl[0].weight=100;
+	strcpy1(stgirl[0].sc,"best");
+
+	strcpy1(stgirl[1].name,"hah");
+	stgirl[1].age=19;
+	stgirl[1].height=166;
+	stgirl[1].weight=110;
+	strcpy1(stgirl[1].sc,"best");
+	
+	strcpy1(stgirl[2].name,"haha");
+	stgirl[2].age=20;
+	stgirl[2].height=167;
+	stgirl[2].weight=120;
+	strcpy1(stgirl[2].sc,"best");
+
+	printf("----fwrite----\n");
+	FILE * fpWrite=fopen("test_file_work.dat","w+");
+	if(fpWrite==0)
+	{
+		printf("fwrite fopen failed!\n");
+	}
+	
+	//for(int i=0;i<3;i++)
+	//{
+	//	fwrite(&stgirl[i],1,sizeof(struct st_girl),fpWrite);
+	//}
+	fwrite(stgirl,1,sizeof(stgirl),fpWrite);
+
+	fclose(fpWrite);
+	
+	printf("-----fread----\n");
+	FILE * fpRead=fopen("test_file_work.dat","r");
+	if(fpRead==0)
+	{
+		printf("read fopen failed\n");
+	}
+
+	//struct st_girl readst;
+	//for(int i=0;i<3;i++)
+	//{
+	//	size_t amount=fread(&readst,1,sizeof(struct st_girl),fpRead);
+	//	if(amount==0)
+	//		break;
+	//	printf("name=%s,age=%d,height=%d,sc=%s",\
+				          readst.name,readst.age,readst.height,readst.sc);
+	//}
+	struct st_girl readArr[3];
+	size_t amount1=fread(readArr,1,sizeof(readArr),fpRead);
+	for(int i=0;i<3;i++)
+	{
+		 printf("name=%s,age=%d,height=%d,sc=%s\n",\
+				                           readArr[i].name,readArr[i].age,readArr[i].height,readArr[i].sc);
+	}
+	
+	fclose(fpRead);
+//------------------------------------------------------------------------------------------------------
+	printf("-----开始文本信息录入-----\n");
+	struct st_girl stArr[2];
+	memset(stArr,0,sizeof(stArr));
+
+	for(int i=0;i<2;i++)
+	{
+		printf("请输入 姓名 年龄 身高 体重 身材：");
+		scanf("%s %d %d %lf %s",stArr[i].name,&stArr[i].age,&stArr[i].height,&stArr[i].weight,stArr[i].sc);
+	}
+	
+	char str[301];
+	memset(str,0,sizeof(str));
+	FILE * fprintfP=fopen("test_wenben.c","w");
+	for(int i=0;i<2;i++)
+	{
+		fprintf(fprintfP,"<name>%s</name><age>%d</age><height>%d</height><weight>%lf</weight><sc>%s</sc>\n",\
+			   	stArr[i].name,stArr[i].age,stArr[i].height,stArr[i].weight,stArr[i].sc);
+	}
+	fclose(fprintfP);
+	printf("-----文本保存成功 -----\n");
+	
+	printf("-----read data begin-----\n");
+	memset(stArr,0,sizeof(stArr));
+	printf("<name>%s<age>%d<height>%d<weight>%lf<sc>%s\n",\
+			                                stArr[0].name,stArr[0].age,stArr[0].height,stArr[0].weight,stArr[0].sc);
+
+	char strTemp[301];
+	memset(strTemp,0,301);
+	
+	FILE * fgetsP=fopen("test_wenben.c","r");
+	for(int i=0;i<2;i++)
+	{
+		fgets(strTemp,301,fgetsP);
+		//printf("%s",strTemp);
+		GetXMLBuffer_Str(strTemp,"name",stArr[i].name);
+		GetXMLBuffer_Int(strTemp,"age",&stArr[i].age);
+	 	GetXMLBuffer_Int(strTemp,"height",&stArr[i].height);
+	  	GetXMLBuffer_Double(strTemp,"weight",&stArr[i].weight);
+	   	GetXMLBuffer_Str(strTemp,"sc",stArr[i].sc);
+		
+		printf("<name>%s<age>%d<height>%d<weight>%lf<sc>%s\n",\
+				                stArr[i].name,stArr[i].age,stArr[i].height,stArr[i].weight,stArr[i].sc);
+	}
+	fclose(fgetsP);
+}
+
+void test_directory()
+{
+	char * strpwd=malloc(301);
+	memset(strpwd,0,sizeof(strpwd));
+	printf("strpwd=%p\n",strpwd);
+	printf("res=%p\n",getcwd(strpwd,300));
+	printf("当前目录是：%s\n",strpwd);
+	free(strpwd);
+
+	//printf("-----chdir-----\n");
+	//char * strpwd1=malloc(301);
+	//memset(strpwd1,0,sizeof(strpwd1));
+	//chdir("aaa");
+	//getcwd(strpwd1,300);
+	//printf("当前目录是：%s\n",strpwd1);
+	//free(strpwd1);
+	
+	printf("-----mkdir-----\n");
+	printf("res=%d\n",mkdir("aaa/ddd",0755));
+
+	printf("-----rmdir-----\n");
+	printf("res=%d\n",rmdir("bbb"));
+
+	printf("-----opendir-----\n");
+	DIR* opendirD=opendir("bbb");
+	struct dirent * dirinfo;
+	while(1)
+	{
+		dirinfo=readdir(opendirD);
+		if(dirinfo==0)
+			break;
+		printf("name:%s type:%d\n",dirinfo->d_name,dirinfo->d_type);
+	}
+	closedir(opendirD);
+}
+
+void test_time()
+{
+	time_t tnow;
+	printf("time(&tnow)=%ld\n",time(&tnow));
+	printf("time(0)=%ld\n",time(0));
+
+	struct tm * tmi=localtime(&tnow);
+
+	printf("%d-%d-%d 星期%d %d时 %d分 %d秒 第%d天\n",\
+				tmi->tm_year+1900,tmi->tm_mon,tmi->tm_mday,tmi->tm_wday,tmi->tm_hour,tmi->tm_min,tmi->tm_sec,tmi->tm_yday);
+
+	time_t tsec=mktime(tmi);
+	printf("tsec=%ld\n",tsec);
+
+	//1s=1000000us.
+	struct timeval tv1;
+	struct timezone tz1;
+	gettimeofday(&tv1,&tz1);//第二个参数一般都为空，我们一般都只是为了获得当前时间，不关心时区的信息。
+
+	printf("tv1.tv_sec=%ld tv1.tv_usec=%ld \n",tv1.tv_sec,tv1.tv_usec);
+	printf("tz1.tz_minuteswest=%d tz1.tz_dsttime=%d \n",tz1.tz_minuteswest,tz1.tz_dsttime);
+	
+
+	printf("-----test_timetostr()-----\n");
+	char  strtime[100];
+	memset(strtime,0,100);
+	printf("timetostr res=%d\n",timetostr(time(0),strtime));
+	printf("timetostr(%ld,)=%s\n",tnow,strtime);
+
+	printf("-----strtotime-----\n");
+	strtotime(strtime,&tnow);
+	printf("%ld\n",tnow);
+
+	printf("-----errno-----\n");
+	//FILE * fp=fopen("aaa","r");
+	//if(fp==0)
+	//{
+	//	printf("%d %s\n",errno,strerror(errno));
+	//	perror("perror res:");
+	//	printf("fopen failed!\n");
+		//return ;
+	//}
+	//fclose(fp);
+
+	printf("----file-----\n");
+	if(access("aaa1",F_OK)==0)
+		printf("exist\n");
+
+	printf("-----stat-----\n");
+	char statstr[20];
+	struct stat statTemp;
+	if(stat("aaa1",&statTemp)==0)
+	{
+		timetostr(statTemp.st_mtime,statstr);
+		printf("statTemp.st_mtime=%s st_size=%ld\n",statstr,statTemp.st_size);
+
+	}
+
+	printf("-----utim-----");
+	struct utimbuf utimTemp;
+	utimTemp.actime=time(0);
+	utimTemp.modtime=time(0);
+	if(utime("aaa1",&utimTemp)==0)
+	{
+		printf("modify aaa1 time success!\n");
+	}
+	
+	printf("-----rename-----\n");
+	if(rename("aaa1","aaa11")==0)
+	{
+		printf("rename aaa1 to aaa11 success!\n");
+	}
+
+	printf("-----remove-----\n");
+	if(remove("aaa11")==0)
+	{
+		printf("rm aaa11 success!\n");
+	}
+	else
+		printf("rm aaa11 failed\n");
+	
+	if(remove("bbb")==0)
+		printf("rm bbb success!\n");
+}
+
+
