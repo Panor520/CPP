@@ -50,4 +50,4 @@ int timetostr(const time_t ti,char *strtime);//把整数的时间转换为字符
 
 int strtotime(const char *strtime,time_t *ti);//把字符串格式的时间转换为整数的时间
 
-
+int Customize_mkdir(const char *path );

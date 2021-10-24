@@ -26,7 +26,7 @@ void test_fpposition();
 void test_filework();
 void test_directory();
 void test_time();
-
+void test_Customize_mkdir();
 
 
 struct st_girl
@@ -64,7 +64,8 @@ int main()
 	//test_fpposition();
 	//test_filework();
 	//test_directory();
-	test_time();
+	//test_time();
+	test_Customize_mkdir();
 }
 
 
@@ -775,4 +776,7 @@ void test_time()
 		printf("rm bbb success!\n");
 }
 
-
+void test_Customize_mkdir()
+{
+	printf("res=%d\n",Customize_mkdir("temp/aaa/bbb"));
+}

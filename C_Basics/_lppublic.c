@@ -520,3 +520,56 @@ int strtotime(const char *strtime,time_t *ti)
 	return -1;
 }
 
+int Customize_mkdir(const char *path )
+{
+	if(strstr(path,"/")==NULL)
+	{
+		if(access(path,F_OK)!=0)
+		{
+			if(mkdir(path,0755)==0)//第二个参数加0时是表示八进制
+			{
+				return 0;
+			}
+			else
+			{
+				return -1;
+			}
+		}
+		else
+		{
+			printf("已存在该目录！\n");
+			return -1;
+		}
+	}
+	else
+	{
+		char * index=0;
+		char * strtemp=malloc(301);
+		int n=0;//累加/前面的字符,包含当前/
+		memset(strtemp,0,sizeof(301));
+		while(1)
+		{
+
+			index=strstr((path+n),"/");//动态找到第几个/
+			if(index==0)
+			{
+				strncpy(strtemp,path+n,strlen(path)-n);
+				mkdir(strtemp,0755);
+				break;
+			}
+			if(n==0)
+				strncpy(strtemp,path+n,index-(path+n));
+			else
+				strncpy(strtemp,path+n,index-(path+n+1));
+			n=(index-path)+1;
+			mkdir(strtemp,0755);
+			chdir(strtemp);
+			printf("%s 创建成功！\n",strtemp);
+			memset(strtemp,0,301);
+		}
+		free(strtemp);
+
+	}
+
+	return 0;//成功返回0
+}
