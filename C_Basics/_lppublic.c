@@ -524,25 +524,24 @@ int Customize_mkdir(const char *path )
 {
 	if(strstr(path,"/")==NULL)
 	{
-		if(access(path,F_OK)!=0)
+		if(access(path,F_OK)!=0)//F_OK是否存在该文件名
 		{
-			if(mkdir(path,0755)==0)//第二个参数加0时是表示八进制
+			if(mkdir(path,0755)!=0)//第二个参数加0时是表示八进制
 			{
-				return 0;
-			}
-			else
-			{
+				printf("create %s failed!\n",path);
 				return -1;
 			}
 		}
 		else
 		{
-			printf("已存在该目录！\n");
+			printf("%s:This ictionary exist\n",path);
 			return -1;
 		}
 	}
 	else
 	{
+		//example:"temp/aaa/bbb/ccc/testfile.c"
+		//         123456789   13 17         27
 		char * index=0;
 		char * strtemp=malloc(301);
 		int n=0;//累加/前面的字符,包含当前/
@@ -553,8 +552,20 @@ int Customize_mkdir(const char *path )
 			index=strstr((path+n),"/");//动态找到第几个/
 			if(index==0)
 			{
-				strncpy(strtemp,path+n,strlen(path)-n);
-				mkdir(strtemp,0755);
+				char *dot=strstr(path+n,".");//find . position
+				if(dot!=0)//最后/后面是文件名
+				{
+					FILE * filetemp=fopen(path+n,"w");//如果文件存在，则清除原文件内容；如果文件不存在，则新建文件。
+					if(filetemp==NULL)
+						return -1;
+					fclose(filetemp);
+				}
+				else//最后/后面是文件夹名
+				{
+					strncpy(strtemp,path+n,strlen(path)-n);
+					mkdir(strtemp,0755);
+					chdir(strtemp);
+				}
 				break;
 			}
 			if(n==0)
@@ -563,7 +574,7 @@ int Customize_mkdir(const char *path )
 				strncpy(strtemp,path+n,index-(path+n+1));
 			n=(index-path)+1;
 			mkdir(strtemp,0755);
-			chdir(strtemp);
+			chdir(strtemp);//cd new path
 			printf("%s 创建成功！\n",strtemp);
 			memset(strtemp,0,301);
 		}

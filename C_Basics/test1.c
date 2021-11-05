@@ -778,5 +778,5 @@ void test_time()
 
 void test_Customize_mkdir()
 {
-	printf("res=%d\n",Customize_mkdir("temp/aaa/bbb"));
+	printf("res=%d\n",Customize_mkdir("temp1/aaa"));
 }
