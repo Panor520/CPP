@@ -2,7 +2,7 @@
 compiletype=g++
 debugtype=-g -o
 
-all:seqlist linklist listarray liststack linkstack recursion
+all:seqlist linklist listarray liststack linkstack recursion listqueue
 
 #顺序表
 seqlist:Seqlist.cpp
@@ -23,6 +23,9 @@ linkstack:linkstack.cpp
 recursion:recursion.cpp
 	${compiletype} ${debugtype} recursion recursion.cpp
 
+listqueue:listqueue.cpp
+	${compiletype} ${debugtype} listqueue listqueue.cpp
+
 clean:
 	rm -f seqlist
 	rm -f linklist
@@ -30,3 +33,4 @@ clean:
 	rm -f liststack
 	rm -f linkstack
 	rm -f recursion
+	rm -f listqueue
