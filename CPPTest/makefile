@@ -4,7 +4,8 @@ compiletype=g++
 compiletype1=gcc
 debugtype=-g -o
 
-all:seqlist linklist listarray liststack linkstack recursion listqueue linkqueue
+all:seqlist linklist listarray liststack linkstack recursion listqueue linkqueue \
+linkbinarytree matrixgraph listgraph 
 
 #顺序表
 seqlist:Seqlist.cpp
@@ -31,6 +32,15 @@ listqueue:listqueue.cpp
 linkqueue:linkqueue.c
 	 ${compiletype1} ${debugtype} linkqueue linkqueue.c
 
+linkbinarytree:linkbinarytree.c
+	${compiletype1} ${debugtype} linkbinarytree linkbinarytree.c
+
+matrixgraph:matrixgraph.c
+	${compiletype1} ${debugtype}  matrixgraph  matrixgraph.c
+
+listgraph:listgraph.c
+	${compiletype1} ${debugtype} listgraph listgraph.c
+
 clean:
 	rm -f seqlist
 	rm -f linklist
@@ -40,3 +50,6 @@ clean:
 	rm -f recursion
 	rm -f listqueue
 	rm -f linkqueue
+	rm -f linkbinarytree
+	rm -f matrixgraph
+	rm -f listgraph
